@@ -1,11 +1,10 @@
+const { program } = require("commander");
+// const yargs = require("yargs");
+// const { hideBin } = require("yargs/helpers");
+// const argv = require("yargs").argv;
+
 const contacts = require("./contacts");
-require("colors");
-//console.log(readContacts.);
-//contacts.listContacts("listContacts function");
 
-const argv = require("yargs").argv;
-
-// TODO: рефакторить
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case "list":
@@ -33,12 +32,36 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
   }
 };
 
-invokeAction({ action: "list" });
-invokeAction({ action: "get", id: "5" });
+//=== commander
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
+
+program.parse(process.argv);
+const options = program.opts();
+console.log(options);
+
+invokeAction(options);
+
+//=== end commander
+
+//==== yargs
+// const arr = hideBin(process.argv);
+// const { argv } = yargs(arr);
+// invokeAction(argv);
+//==== end yargs
+
+//==== test function
+// invokeAction({ action: "list" });
+// invokeAction({ action: "get", id: "5" });
 // invokeAction({
 //   action: "add",
 //   name: "Mango",
 //   email: "mango@gmail.com",
 //   phone: "322-22-22",
 // });
-invokeAction({ action: "remove", id: "HHYdK0Pdh6p1KseZXmEZy" });
+//invokeAction({ action: "remove", id: "TPXV2MyeDQcC20UCZDdCW" });
+//==== end test function
